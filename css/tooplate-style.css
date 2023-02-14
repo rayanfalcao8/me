@@ -5,7 +5,7 @@ body {
 }
 
 .full-screen {
-  padding: 8rem 0;
+  padding: 4rem 0;
 }
 
 .small-text {
@@ -293,6 +293,12 @@ b, strong {
   background: #0c0c0d;
   border-bottom: 1px solid #1f1f1f;
 }
+
+.dark-mode .card {
+  background: #0c0c0d;
+  border: 1px solid #f7f3f3;
+}
+
 .dark-mode .small-text {
   background: #0d0c15;
   color: #ffffff;
@@ -485,6 +491,11 @@ b, strong {
   }
 }
 @media (max-width: 767px) {
+  
+  .full-screen {
+    padding: 1rem 0;
+  }
+
   h1 {
     font-size: 2.4em;
   }
@@ -559,3 +570,5 @@ b, strong {
     vertical-align: top;
   }
 }
+
+/* SKILLS */
