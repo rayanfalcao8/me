@@ -23,6 +23,11 @@ $button-color: #474559;
 
 $small-font-size: 14px;
 $link-font-size: 16px;
+$--load-stroke-offset: 0;
+$--background-color:#f3f3f3;
+$--header-text-color: #231F20;
+$--primary-text-color: #656263;
+$--orange-text-color: #F3954F;
 
 @mixin transition-effect {
 	transition: all 0.4s ease;
@@ -358,6 +363,7 @@ b, strong {
 	}
 }
 
+// SKILLS
 
 // TIMELINE
 .timeline-wrapper {
