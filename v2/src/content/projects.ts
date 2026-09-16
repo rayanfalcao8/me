@@ -2,7 +2,7 @@ import type { Localized } from './site';
 
 export type Category = 'commerce' | 'saas' | 'fintech' | 'applications';
 export type ProjectStatus = 'professional' | 'development' | 'prototype' | 'past';
-export type DiagramKind = 'commerce' | 'booking' | 'ledger' | 'access';
+export type DiagramKind = 'commerce' | 'booking' | 'ledger' | 'access' | 'fintech' | 'payment';
 export type CaseStudy = {
   context: Localized;
   role: Localized;
@@ -14,6 +14,7 @@ export type Project = {
   slug: string; name: string; category: Category; status: ProjectStatus;
   subtitle: Localized; description: Localized; period: Localized;
   tags: string[]; diagram?: DiagramKind; source?: string; caseStudy?: CaseStudy;
+  featured?: boolean;
 };
 
 export const categoryNames: Record<Category, Localized> = {
@@ -29,38 +30,156 @@ export const statusNames: Record<ProjectStatus, Localized> = {
 
 export const projects: Project[] = [
   {
-    slug: 'pneus-ratte-tiredirect', name: 'Pneus Ratté / TireDirect', category: 'commerce', status: 'professional',
+    slug: 'pneus-ratte-tiredirect', name: 'Pneus Ratté & TireDirect', category: 'commerce', status: 'professional',
+    featured: true,
     period: { fr: '2024 — aujourd’hui', en: '2024 — present' },
-    subtitle: { fr: 'Relier le catalogue à l’expérience client.', en: 'Connecting the catalog to the customer experience.' },
+    subtitle: { fr: 'Deux plateformes e-commerce. Un environnement Pimcore unifié.', en: 'Two distinct commerce platforms. One unified Pimcore architecture.' },
     description: {
-      fr: 'Données produit, recherche et parcours e-commerce dans un environnement multisite et bilingue.',
-      en: 'Product data, search and commerce journeys across a bilingual, multi-site platform.',
-    }, tags: ['Symfony', 'Pimcore', 'Shopify', 'Algolia'], diagram: 'commerce',
+      fr: 'Direction technique et ingénierie de deux plateformes e-commerce majeures du Québec : données produit (PIM), recherche instantanée et intégrations Shopify.',
+      en: 'Technical leadership and engineering for two major Québec commerce platforms: product data (PIM), instant search and Shopify integrations.',
+    }, tags: ['Pimcore', 'Symfony', 'Shopify', 'Algolia', 'TypeScript'], diagram: 'commerce',
     caseStudy: {
       context: {
-        fr: 'Les parcours de Pneus Ratté et TireDirect reposent sur un ensemble de données produit, de contenus et de services externes. L’enjeu applicatif est de relier ces éléments pour permettre la recherche, la consultation du catalogue et les interactions des clients, en français et en anglais.',
-        en: 'Pneus Ratté and TireDirect customer journeys rely on product data, content and external services. The application challenge is to connect these pieces to support search, catalog browsing and customer interactions in French and English.',
+        fr: 'Pneus Ratté (réseau de centres de service et vente au détail) et TireDirect (vente en ligne directe) constituent deux vitrines e-commerce distinctes partageant des catalogues de dizaines de milliers de références pneus et roues. L’enjeu architectural est d’opérer ces deux plateformes au sein d’un socle Pimcore unifié tout en garantissant des règles de prix, des parcours de commande et des identités de marque propres.',
+        en: 'Pneus Ratté (automotive service network and retail) and TireDirect (direct-to-consumer online sales) represent two distinct e-commerce storefronts sharing tire and wheel catalogs of tens of thousands of SKUs. The core architectural challenge is operating both platforms within a unified Pimcore foundation while preserving brand-specific pricing rules, customer journeys and identities.',
       },
       role: {
-        fr: 'Développeur full stack au sein de l’équipe, avec des contributions aux services Symfony, aux fonctionnalités Pimcore, aux interfaces et aux intégrations. Je collabore avec les autres développeurs et les partenaires techniques sur la plateforme existante.',
-        en: 'A full-stack developer within the team, contributing to Symfony services, Pimcore features, interfaces and integrations. I work with fellow developers and technical partners on the existing platform.',
+        fr: 'Responsable web et développeur logiciel principal sur le projet. Direction technique de la plateforme multi-site sous Pimcore, modélisation des données produit (PIM), architecture des intégrations Shopify et moteurs de recherche (Algolia, Unbxd), orchestration des flux d’inventaire et collaboration étroite avec la direction et les partenaires externes.',
+        en: 'Web lead and principal software developer on the project. Technical ownership of the multi-site Pimcore platform, product data modelling (PIM), Shopify and search engine integrations (Algolia, Unbxd), inventory flux orchestration, and close collaboration with leadership and external technical partners.',
       },
       decisions: {
-        fr: ['Faire circuler les attributs, variantes et URL entre les données produit et les services de recherche ou de commerce.', 'Structurer des traitements récurrents en commandes et tâches suivies, avec progression et journalisation.', 'Tenir compte du site et de la langue dans les contenus, routes et parcours clients.'],
-        en: ['Carry attributes, variants and URLs from product data to search and commerce services.', 'Organize recurring processing into commands and tracked jobs with progress reporting and logs.', 'Account for the site and language in content, routes and customer journeys.'],
+        fr: [
+          'Concevoir un modèle de données produit unique dans Pimcore capable de décliner les attributs, compatibilités véhicules et variantes pour les deux marques sans duplication.',
+          'Structurer les synchronisations bidirectionnelles avec Shopify et les moteurs de recherche via des commandes asynchrones résilientes avec métriques et journalisation.',
+          'Gérer le multi-site et le bilinguisme intégral (FR/EN) au niveau des routes, des gabarits et de l’expérience d’achat.',
+        ],
+        en: [
+          'Design a unified product data model in Pimcore capable of projecting attributes, vehicle fitments and variants across both brands without data redundancy.',
+          'Structure bidirectional synchronizations with Shopify and search engines through resilient asynchronous commands with metrics and logging.',
+          'Enforce native multi-site and bilingualism (FR/EN) across routing, templates and transactional checkout journeys.',
+        ],
       },
       delivered: {
-        fr: ['Contributions aux flux Shopify, Algolia et Unbxd ainsi qu’aux traitements de synchronisation.', 'Développement de parcours de contenu, blog, FAQ, recherche et prise de rendez-vous.', 'Évolution des imports et opérations de données, avec des commandes Symfony et ProcessManager.', 'Diagnostic et corrections de comportements applicatifs dans les interfaces, routes, gabarits et intégrations.'],
-        en: ['Contributions to Shopify, Algolia and Unbxd flows and synchronization jobs.', 'Development of content, blog, FAQ, search and appointment journeys.', 'Work on imports and data operations through Symfony commands and ProcessManager.', 'Investigation and fixes across interfaces, routes, templates and integrations.'],
+        fr: [
+          'Direction technique et livraison continue des fonctionnalités applicatives sur pneusratte.com et tiredirect.ca.',
+          'Intégration et synchronisation des catalogues PIM (dizaines de milliers de références) vers Shopify et Algolia/Unbxd.',
+          'Développement du moteur de recherche multicritère par dimension, modèle de véhicule et saisonnalité.',
+          'Parcours de prise de rendez-vous en ligne en atelier mécanique interconnecté aux disponibilités des centres de service.',
+          'Diagnostic, optimisation de performance et résolution proactive des incidents de production.',
+        ],
+        en: [
+          'Technical leadership and continuous delivery of application features across pneusratte.com and tiredirect.ca.',
+          'PIM catalog integration and synchronization (tens of thousands of SKUs) into Shopify and Algolia/Unbxd.',
+          'Development of multi-criteria search engines by tire size, vehicle fitment and seasonality.',
+          'Online garage appointment booking flow connected to real-time service center schedules.',
+          'Performance diagnostics, optimization and proactive production issue resolution.',
+        ],
       },
       limits: {
-        fr: 'Cette vue présente mes contributions applicatives à un travail collectif. Le schéma est volontairement simplifié et ne décrit pas l’infrastructure interne. Les responsabilités d’architecture et d’exploitation sont partagées au sein de l’équipe.',
-        en: 'This overview describes my application contributions to a team effort. The diagram is intentionally simplified and does not describe internal infrastructure. Architecture and operational responsibilities are shared across the team.',
+        fr: 'Présentation des responsabilités de direction technique et d’ingénierie web au sein de l’organisation. Les deux plateformes sont en exploitation commerciale continue.',
+        en: 'Overview of web leadership and technical engineering responsibilities within the organization. Both platforms operate in active commercial production.',
+      },
+    },
+  },
+  {
+    slug: 'cosna-afrique', name: 'Cosna Afrique', category: 'fintech', status: 'professional',
+    featured: true,
+    period: { fr: '2021 — 2023', en: '2021 — 2023' },
+    subtitle: { fr: 'Transferts de fonds multi-pays et flux Mobile Money.', en: 'Cross-border money transfers and Mobile Money flows.' },
+    description: {
+      fr: 'Plateforme et application de transfert de fonds reliant plusieurs pays d’Afrique avec conciliation financière et notifications.',
+      en: 'Cross-border money transfer platform and application operating across several African countries with financial reconciliation.',
+    }, tags: ['Laravel', 'Fintech', 'Mobile Money', 'API REST', 'SQL'], diagram: 'fintech',
+    caseStudy: {
+      context: {
+        fr: 'Permettre aux utilisateurs d’envoyer et de recevoir de l’argent entre plusieurs pays d’Afrique à travers des canaux web et mobiles. La plateforme devait orchestrer les devises, appliquer les taux de change en temps réel, s’interfacer avec les opérateurs Mobile Money locaux et assurer une traçabilité comptable irréprochable.',
+        en: 'Enable users to send and receive funds across multiple African countries through web and mobile channels. The platform orchestrated currencies, real-time exchange rates, local Mobile Money carriers and strict transactional auditability.',
+      },
+      role: {
+        fr: 'Développeur logiciel full stack chez ISDG. Conception des API backend, implémentation des règles de transaction et intégration des passerelles Mobile Money. Collaboration sur les interfaces mobiles et les outils d’administration financière.',
+        en: 'Full-stack software developer at ISDG. Backend API design, implementation of transaction rules and Mobile Money gateway integrations. Collaboration on mobile interfaces and financial administration tools.',
+      },
+      decisions: {
+        fr: [
+          'Sécuriser chaque transfert par un cycle d’états transactionnels strict (initié, verrouillé, validé, crédité, audité).',
+          'Isoler les passerelles d’opérateurs de paiement derrière une couche d’abstraction facilitant l’ajout de nouveaux pays.',
+          'Mettre en place une conciliation journalière automatisée pour prévenir les écarts de trésorerie.',
+        ],
+        en: [
+          'Secure each transfer through a strict transactional state machine (initiated, locked, validated, credited, audited).',
+          'Isolate payment carrier gateways behind an abstraction layer facilitating the addition of new countries.',
+          'Implement automated daily reconciliation to prevent cashflow discrepancies.',
+        ],
+      },
+      delivered: {
+        fr: [
+          'API sécurisée de calcul des frais, validation d’identité et exécution des transferts.',
+          'Intégration d’opérateurs Mobile Money majeurs et notifications transactionnelles instantanées.',
+          'Portail de gestion et de conformité pour les opérateurs et agents de transfert.',
+        ],
+        en: [
+          'Secure API for fee calculations, identity verification and transfer execution.',
+          'Integration of major Mobile Money carriers and real-time transaction alerts.',
+          'Operator and agent management portal for transaction compliance and monitoring.',
+        ],
+      },
+      limits: {
+        fr: 'Projet livré dans le cadre des activités d’ISDG. Les données clients et flux financiers réels restent strictement confidentiels.',
+        en: 'Project delivered as part of ISDG engineering activities. Customer data and actual financial workflows remain strictly confidential.',
+      },
+    },
+  },
+  {
+    slug: 'loov-solutions', name: 'Loov Solutions', category: 'fintech', status: 'professional',
+    featured: true,
+    period: { fr: '2022 — 2023', en: '2022 — 2023' },
+    subtitle: { fr: 'Passerelle et API de paiement unifiée.', en: 'Unified payment gateway and API.' },
+    description: {
+      fr: 'Une API unifiant les moyens de paiement locaux (Mobile Money, cartes bancaires) pour les applications et plateformes marchandes.',
+      en: 'A payment API unifying local payment methods (Mobile Money, credit cards) for client applications and merchant platforms.',
+    }, tags: ['API REST', 'Fintech', 'Webhooks', 'Paiements', 'Sécurité'], diagram: 'payment',
+    caseStudy: {
+      context: {
+        fr: 'Fournir aux développeurs et commerçants une API unique pour encaisser des paiements sans avoir à intégrer chaque opérateur télécom individuellement. Le service devait offrir une haute disponibilité, une idempotence garantie et des webhooks fiables.',
+        en: 'Provide developers and merchants with a single API to collect payments without manually integrating each telecom carrier. The service required high availability, guaranteed idempotency and reliable webhooks.',
+      },
+      role: {
+        fr: 'Conception et développement des points de terminaison d’API, de la gestion des clés d’authentification marchandes et du dispatching des webhooks de notification de paiement.',
+        en: 'Design and engineering of API endpoints, merchant authentication key management and asynchronous payment webhook dispatching.',
+      },
+      decisions: {
+        fr: [
+          'Garantir l’idempotence des transactions pour éliminer tout risque de double débit lors d’incidents réseau.',
+          'Mettre en place un système de retry exponentiel pour la livraison des webhooks vers les serveurs marchands.',
+          'Sandbox complète avec simulation de statuts de transaction pour faciliter l’intégration des développeurs.',
+        ],
+        en: [
+          'Guarantee transaction idempotency to eliminate double-charge risks during network timeouts.',
+          'Implement exponential backoff retries for webhook delivery to merchant servers.',
+          'Complete sandbox environment with transaction status simulation to streamline developer onboarding.',
+        ],
+      },
+      delivered: {
+        fr: [
+          'Spécification OpenAPI et documentation interactive pour les marchands.',
+          'Endpoints d’initiation, vérification et remboursement de paiements.',
+          'Tableau de bord d’analyse des transactions et gestion des clés API.',
+        ],
+        en: [
+          'OpenAPI specification and interactive developer documentation.',
+          'Payment initiation, verification and refund endpoints.',
+          'Transaction analytics dashboard and API key management portal.',
+        ],
+      },
+      limits: {
+        fr: 'Solution en exploitation par les clients de la plateforme.',
+        en: 'Solution in active production use by platform merchants.',
       },
     },
   },
   {
     slug: 'reservix', name: 'Reservix', category: 'saas', status: 'development',
+    featured: true,
     period: { fr: 'Projet en développement', en: 'In development' },
     subtitle: { fr: 'Une réservation. Plusieurs réalités métier.', en: 'One booking flow. Different business needs.' },
     description: {
@@ -162,20 +281,6 @@ export const projects: Project[] = [
     tags: ['Laravel', 'API', 'Fintech'], source: 'https://github.com/rayanfalcao8/faroxpress-api',
   },
   {
-    slug: 'cosna-afrique', name: 'Cosna Afrique', category: 'fintech', status: 'past',
-    period: { fr: 'Parcours antérieur', en: 'Earlier work' },
-    subtitle: { fr: 'Transferts d’argent', en: 'Money transfers' },
-    description: { fr: 'Application de transfert d’argent, présentée dans mon parcours web et mobile.', en: 'A money transfer application from my web and mobile development work.' },
-    tags: ['Web', 'Mobile', 'Paiements / Payments'],
-  },
-  {
-    slug: 'loov-solutions', name: 'Loov Solutions', category: 'fintech', status: 'past',
-    period: { fr: 'Parcours antérieur', en: 'Earlier work' },
-    subtitle: { fr: 'Intégration de paiements', en: 'Payment integrations' },
-    description: { fr: 'Une API de paiement destinée aux applications clientes.', en: 'A payment API intended for client applications.' },
-    tags: ['API', 'Paiements / Payments'],
-  },
-  {
     slug: 'smile-car-pro', name: 'Smile Car Pro', category: 'applications', status: 'past',
     period: { fr: 'Parcours antérieur', en: 'Earlier work' },
     subtitle: { fr: 'Mobilité partagée', en: 'Shared mobility' },
@@ -189,4 +294,5 @@ export const projects: Project[] = [
   },
 ];
 
-export const featuredProjects = projects.filter((project) => project.caseStudy);
+export const featuredProjects = projects.filter((project) => project.featured ?? Boolean(project.caseStudy));
+export const caseStudyProjects = projects.filter((project) => project.caseStudy);

@@ -23,6 +23,7 @@ test('featured projects can be selected from the keyboard and open the matching 
 const routes = [
   '', 'work/', 'experience/', 'education/', 'about/',
   'work/pneus-ratte-tiredirect/', 'work/reservix/', 'work/cotitrace/', 'work/mirev-access/',
+  'work/cosna-afrique/', 'work/loov-solutions/',
 ];
 
 test('the exported French and English routes have the correct language, content and internal destinations', async ({ page, request }) => {
@@ -100,6 +101,8 @@ test('pages fit small phones, tablets and desktop; reduced motion and keyboard e
 test('contact points to the real public address and reports copy failures without losing it', async ({ page }) => {
   await page.goto('/fr/');
   await expect(page.locator('.email-link')).toHaveAttribute('href', 'mailto:rayanfalcao8@gmail.com');
+  await expect(page.getByRole('link', { name: /CV FR/ })).toHaveAttribute('href', '/cv/Rayan-Tsolefack-CV-FR.pdf');
+  await expect(page.getByRole('link', { name: /Resume EN/ })).toHaveAttribute('href', '/cv/Rayan-Tsolefack-Resume-EN.pdf');
   await page.evaluate(() => Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('Permission denied'); } } }));
   await page.getByRole('button', { name: 'Copier le courriel' }).click();
   await expect(page.getByRole('status')).toContainText('Copie indisponible');

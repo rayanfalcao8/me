@@ -19,6 +19,10 @@ export function Contact({ locale }: { locale: Locale }) {
         <div><h2 id="contact-title">{words.footerTitle}</h2><p>{words.footerBody}</p></div>
         <div className="contact-actions">
           <a className="email-link" href={`mailto:${profile.email}`}>{profile.email}<Arrow /></a>
+          <div className="resume-downloads" aria-label={locale === 'fr' ? 'Télécharger mon CV' : 'Download my resume'}>
+            <a href="/cv/Rayan-Tsolefack-CV-FR.pdf" download>CV FR <Arrow direction="down" /></a>
+            <a href="/cv/Rayan-Tsolefack-Resume-EN.pdf" download>Resume EN <Arrow direction="down" /></a>
+          </div>
           <button type="button" className="copy-button" onClick={copy}>{status === 'copied' ? words.copied : words.copy}<span aria-hidden="true">{status === 'copied' ? '✓' : '⧉'}</span></button>
           <p className="copy-status" role="status">{status === 'error' ? words.copyError : status === 'copied' ? words.copied : ''}</p>
         </div>

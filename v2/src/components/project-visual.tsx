@@ -1,17 +1,126 @@
+'use client';
+
+import { useState } from 'react';
 import type { Locale } from '@/content/site';
 import { ui } from '@/content/site';
 import type { DiagramKind } from '@/content/projects';
 
 export function ProjectVisual({ kind, locale, large = false }: { kind: DiagramKind; locale: Locale; large?: boolean }) {
   const fr = locale === 'fr';
-  if (kind === 'commerce') return <figure className={`project-visual visual-commerce ${large ? 'visual-large' : ''}`}>
-    <div className="visual-topline"><span>PNEUS RATTÉ / E-COMMERCE</span><span>2024 — {fr ? 'AUJOURD’HUI' : 'PRESENT'}</span></div>
-    <div className="production-frame"><div className="production-browserbar">pneusratte.com</div><img src="/images/projects/pneusratte-public.jpg" alt={fr ? 'Accueil du site public Pneus Ratté, septembre 2026' : 'Public Pneus Ratté homepage, September 2026'} width="1363" height="936" loading="lazy" /></div>
-    <figcaption><span>{fr ? 'CAPTURE DU SITE PUBLIC · SEPT. 2026' : 'PUBLIC WEBSITE CAPTURE · SEPT. 2026'}</span><span aria-hidden="true">↗</span></figcaption>
-  </figure>;
+  const [activeBrand, setActiveBrand] = useState<'pneusratte' | 'tiredirect'>('pneusratte');
+
+  if (kind === 'commerce') {
+    return (
+      <figure className={`project-visual visual-commerce ${large ? 'visual-large' : ''}`}>
+        <div className="visual-topline">
+          <span>PNEUS RATTÉ &amp; TIREDIRECT / PIMCORE MULTI-SITE</span>
+          <div className="multi-site-switch" role="tablist" aria-label={fr ? 'Choisir la vitrine e-commerce' : 'Choose storefront'}>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeBrand === 'pneusratte'}
+              className={`switch-btn ${activeBrand === 'pneusratte' ? 'is-active' : ''}`}
+              onClick={() => setActiveBrand('pneusratte')}
+            >
+              Pneus Ratté
+            </button>
+            <button
+              type="button"
+              role="tab"
+              aria-selected={activeBrand === 'tiredirect'}
+              className={`switch-btn ${activeBrand === 'tiredirect' ? 'is-active' : ''}`}
+              onClick={() => setActiveBrand('tiredirect')}
+            >
+              TireDirect
+            </button>
+          </div>
+        </div>
+
+        <div className="commerce-showcase">
+          <div className="production-frame">
+            <div className="production-browserbar">
+              {activeBrand === 'pneusratte'
+                ? 'pneusratte.com · Pneus Ratté (B2C & Ateliers mécanique)'
+                : 'tiredirect.ca · TireDirect Canada (Distribution & Vente en ligne)'}
+            </div>
+            <img
+              src={activeBrand === 'pneusratte' ? '/images/projects/pneusratte-public.jpg' : '/images/projects/tiredirect-public.jpg'}
+              alt={activeBrand === 'pneusratte' ? 'Site public Pneus Ratté' : 'Site public TireDirect Canada'}
+              width="1363"
+              height="936"
+              loading="lazy"
+            />
+          </div>
+        </div>
+
+        <figcaption className="commerce-caption">
+          <span className="multisite-badge">
+            {fr
+              ? 'SOCLE PIMCORE UNIFIÉ · GESTION MULTI-SITE & CATALOGUE PARTAGÉ'
+              : 'UNIFIED PIMCORE FOUNDATION · MULTI-SITE & SHARED CATALOG'}
+          </span>
+          <span aria-hidden="true">↗</span>
+        </figcaption>
+      </figure>
+    );
+  }
+
+  if (kind === 'fintech') {
+    return (
+      <figure className={`project-visual visual-fintech ${large ? 'visual-large' : ''}`}>
+        <div className="visual-topline">
+          <span>COSNA AFRIQUE / FINTECH &amp; TRANSFERTS</span>
+          <span aria-hidden="true">[ 02 ]</span>
+        </div>
+        <div className="production-frame">
+          <div className="production-browserbar">cosna-afrique.com · Mobile Money &amp; Transferts multi-pays</div>
+          <img
+            src="/images/projects/cosna.png"
+            alt={fr ? 'Plateforme Cosna Afrique' : 'Cosna Afrique platform'}
+            width="1200"
+            height="650"
+            loading="lazy"
+          />
+        </div>
+        <figcaption>
+          <span>{fr ? 'TRANSFERTS MULTI-PAYS · PRODUCTION RÉELLE' : 'CROSS-BORDER TRANSFERS · REAL PRODUCTION'}</span>
+          <span aria-hidden="true">↗</span>
+        </figcaption>
+      </figure>
+    );
+  }
+
+  if (kind === 'payment') {
+    return (
+      <figure className={`project-visual visual-payment ${large ? 'visual-large' : ''}`}>
+        <div className="visual-topline">
+          <span>LOOV SOLUTIONS / PASSERELLE DE PAIEMENT</span>
+          <span aria-hidden="true">[ 03 ]</span>
+        </div>
+        <div className="production-frame">
+          <div className="production-browserbar">loov-solutions.com · API &amp; Gateway Webhooks</div>
+          <img
+            src="/images/projects/loov.png"
+            alt={fr ? 'Passerelle de paiement Loov Solutions' : 'Loov Solutions payment gateway'}
+            width="1200"
+            height="650"
+            loading="lazy"
+          />
+        </div>
+        <figcaption>
+          <span>{fr ? 'PASSERELLE DE PAIEMENT &amp; API WEBHOOKS' : 'PAYMENT GATEWAY &amp; WEBHOOKS API'}</span>
+          <span aria-hidden="true">↗</span>
+        </figcaption>
+      </figure>
+    );
+  }
+
   return (
     <figure className={`project-visual visual-${kind} ${large ? 'visual-large' : ''}`}>
-      <div className="visual-topline"><span>{({ booking: 'SAAS / BOOKING', ledger: 'FINTECH / LEDGER', access: 'NETWORK / ACCESS' })[kind]}</span><span aria-hidden="true">[ {kind === 'booking' ? '02' : kind === 'ledger' ? '03' : '04'} ]</span></div>
+      <div className="visual-topline">
+        <span>{({ booking: 'SAAS / BOOKING', ledger: 'FINTECH / LEDGER', access: 'NETWORK / ACCESS' })[kind]}</span>
+        <span aria-hidden="true">[ {kind === 'booking' ? '04' : kind === 'ledger' ? '05' : '06'} ]</span>
+      </div>
       {kind === 'booking' && (
         <div className="booking-schema">
           <div className="visual-product-name">reservix<span aria-hidden="true">.</span></div>

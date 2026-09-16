@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import type { Locale } from '@/content/site';
 import { ui } from '@/content/site';
 import { projects, categoryNames, statusNames, type Category } from '@/content/projects';
@@ -12,24 +13,74 @@ export function ProjectBrowser({ locale }: { locale: Locale }) {
   const filtered = projects.filter((p) => filter === 'all' || p.category === filter);
   const detailed = filtered.filter((p) => p.caseStudy);
   const other = filtered.filter((p) => !p.caseStudy);
+  const words = ui[locale];
+
   return (
     <div className="shell work-browser">
+      {/* Filtres */}
       <div className="filter-bar">
         <div className="filters" role="group" aria-label={locale === 'fr' ? 'Filtrer les projets par domaine' : 'Filter projects by domain'}>
-          {(['all', ...Object.keys(categoryNames)] as (Category | 'all')[]).map((key) => <button key={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>{key === 'all' ? ui[locale].all : categoryNames[key][locale]}</button>)}
+          {(['all', ...Object.keys(categoryNames)] as (Category | 'all')[]).map((key) => (
+            <button key={key} aria-pressed={filter === key} onClick={() => setFilter(key)}>
+              {key === 'all' ? words.all : categoryNames[key][locale]}
+            </button>
+          ))}
         </div>
-        <p className="filter-count" role="status">{filtered.length} {locale === 'fr' ? 'projets présentés' : 'projects shown'}</p>
+        <p className="filter-count" role="status" aria-live="polite">
+          {filtered.length} {locale === 'fr' ? 'projets présentés' : 'projects shown'}
+        </p>
       </div>
-      {detailed.length > 0 && <div className="projects-grid">{detailed.map((project) => <ProjectCard key={project.slug} project={project} locale={locale} />)}</div>}
-      {other.length > 0 && <section className="project-directory" aria-labelledby="directory-title">
-        <h2 id="directory-title">{locale === 'fr' ? 'Autres réalisations & explorations' : 'More work & explorations'}</h2>
-        <div className="directory-items">{other.map((project) => <article className="directory-item" key={project.slug}>
-          <span className="directory-category">{categoryNames[project.category][locale]}</span>
-          <div><h3>{project.name}</h3><p>{project.description[locale]}</p></div>
-          <span className="directory-status">{statusNames[project.status][locale]}</span>
-          {project.source ? <a href={project.source} target="_blank" rel="noreferrer" className="directory-link" aria-label={`${ui[locale].source} — ${project.name}`}><Arrow /><span className="sr-only">{ui[locale].source}</span></a> : <span aria-hidden="true" className="directory-dash">—</span>}
-        </article>)}</div>
-      </section>}
+
+      {/* Projets avec étude de cas */}
+      {detailed.length > 0 && (
+        <div className="projects-grid">
+          {detailed.map((project) => (
+            <ProjectCard key={project.slug} project={project} locale={locale} />
+          ))}
+        </div>
+      )}
+
+      {/* Répertoire : autres projets */}
+      {other.length > 0 && (
+        <section className="project-directory" aria-labelledby="directory-title">
+          <h2 id="directory-title">
+            {locale === 'fr' ? 'Autres réalisations & explorations' : 'More work & explorations'}
+          </h2>
+          <div className="directory-items">
+            {other.map((project) => (
+              <article className="directory-item" key={project.slug}>
+                <span className="directory-category">{categoryNames[project.category][locale]}</span>
+                <div>
+                  <h3>{project.name}</h3>
+                  <p>{project.description[locale]}</p>
+                </div>
+                <span className="directory-status">{statusNames[project.status][locale]}</span>
+                {project.source ? (
+                  <a
+                    href={project.source}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="directory-link"
+                    aria-label={`${words.source} — ${project.name}`}
+                  >
+                    <Arrow />
+                    <span className="sr-only">{words.source}</span>
+                  </a>
+                ) : (
+                  <span aria-hidden="true" className="directory-dash">—</span>
+                )}
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Aucun résultat */}
+      {filtered.length === 0 && (
+        <p className="directory-empty">
+          {locale === 'fr' ? 'Aucun projet dans cette catégorie.' : 'No projects in this category.'}
+        </p>
+      )}
     </div>
   );
 }

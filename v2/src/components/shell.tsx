@@ -4,10 +4,12 @@ import { profile, ui } from '@/content/site';
 import { Navigation } from './navigation';
 import { Contact } from './contact';
 import { Arrow } from './arrow';
+import { ScrollRevealInit } from './scroll-reveal';
 
 export function SiteShell({ locale, children }: { locale: Locale; children: ReactNode }) {
   return (
     <>
+      <ScrollRevealInit />
       <a className="skip-link" href="#main">{ui[locale].skip}</a>
       <Navigation locale={locale} />
       <main id="main">{children}</main>

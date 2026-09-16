@@ -32,13 +32,13 @@ Les tests vérifient les routes FR/EN, les destinations internes, le changement 
 
 ## Contenu
 
-- `src/content/site.ts` : profil, libellés, parcours et formation.
+- `src/content/site.ts` : profil, compétences principales, libellés, parcours et formation.
 - `src/content/projects.ts` : projets, statuts et textes bilingues des études de cas.
 - `src/components/project-visual.tsx` : capture du site public Pneus Ratté et vues fonctionnelles légendées pour les autres projets.
 - `src/components/featured-work.tsx` : sélection interactive des projets à l’accueil.
 - `src/app/globals.css` et `src/app/editorial.css` : styles communs, composition et responsive.
 
-Les projets possèdent un statut explicite et, pour les études de cas, un contexte, un rôle, des décisions, des réalisations et des limites. Les textes français et anglais partagent le même modèle de données.
+Les projets possèdent un statut explicite et, pour les études de cas, un contexte, un rôle, des décisions, des réalisations et des limites. Les textes français et anglais partagent le même modèle de données. Les CV téléchargeables se trouvent dans `public/cv/`.
 
 ## Structure
 
@@ -46,8 +46,17 @@ La branche de développement est `feat/portfolio-v2`. L’application est isolé
 
 Les composants serveur assurent le rendu initial. Seuls le menu, les filtres et la copie du courriel nécessitent des composants clients. La police est servie localement; les métadonnées sont adaptées à chaque langue.
 
-## Avant publication
+## Déploiement et domaine
 
-Choisir et vérifier le domaine, renseigner `NEXT_PUBLIC_SITE_URL` et activer `PORTFOLIO_INDEXABLE=true` uniquement après validation. Les métadonnées sont localisées; les pages sont non indexables par défaut. Les titres de diplômes, dates ambiguës, contributions et captures doivent être validés avec Rayan. Ajouter le CV général FR/EN actualisé et les véritables captures autorisées.
+La publication est automatisée par [`.github/workflows/deploy-pages.yml`](../.github/workflows/deploy-pages.yml) : chaque fusion sur `main` qui modifie `v2/` construit puis déploie l’export statique vers GitHub Pages. Le workflow définit l’URL de production `https://rayanfalcao8.is-a.dev` et active l’indexation uniquement dans ce contexte.
 
-L’ancien site sur `main` n’est pas modifié par cette version. Aucun workflow de déploiement automatique n’a été ajouté.
+À faire une seule fois dans GitHub :
+
+1. Dans **Settings → Pages**, choisir **GitHub Actions** comme source de déploiement.
+2. Dans **Settings → Pages → Custom domain**, saisir `rayanfalcao8.is-a.dev`, puis activer **Enforce HTTPS** lorsque GitHub l’autorise.
+3. Dans le gestionnaire DNS de `is-a.dev`, vérifier que `rayanfalcao8.is-a.dev` est un enregistrement `CNAME` vers `rayanfalcao8.github.io` (sans chemin ni `https://`). Vérifier le domaine dans GitHub avant de l’attacher est recommandé.
+4. Fusionner cette branche dans `main`, puis contrôler la première exécution dans l’onglet **Actions**.
+
+`public/CNAME` est volontairement inclus dans l’artefact afin que GitHub Pages conserve le domaine personnalisé à chaque déploiement. Le site publie `sitemap.xml`, `robots.txt`, les URL canoniques et les liens alternatifs FR/EN ; la page `/` est laissée accessible mais non indexée, au profit de `/fr/` comme URL française canonique. Les aperçus LinkedIn, Slack et X utilisent `public/images/og-portfolio.png`.
+
+Les CV FR/EN générés dans `public/cv/` doivent être actualisés lors de chaque changement de parcours; ajouter les véritables captures autorisées.

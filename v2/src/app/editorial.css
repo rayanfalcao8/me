@@ -1,7 +1,8 @@
 .identity-section { padding-top: 32px; }
 .identity-meta { display:flex; justify-content:space-between; gap:24px; align-items:center; }
 .identity-location { font-size:12px; display:flex; gap:9px; align-items:center; }
-.identity-location i { width:6px; height:6px; background:#55704a; border-radius:50%; }
+.identity-location i { width:6px; height:6px; background:#55704a; border-radius:50%; animation: pulse-dot 2.5s ease infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1} 50%{opacity:.4} }
 .identity-grid { display:grid; grid-template-columns:1.25fr 1fr; gap:80px; align-items:center; margin:48px 0 52px; }
 .identity-copy { min-width:0; }
 .identity-copy h1 { position:relative; font-size:clamp(80px,8.4vw,120px); line-height:.88; font-weight:650; letter-spacing:-.075em; }
@@ -114,7 +115,7 @@
 .production-frame img { width:100%; height:auto; display:block; border-radius:0 0 2px 2px; }
 .production-frame { box-shadow:0 20px 40px #0003; transform:perspective(1000px) rotateY(-4deg) rotateX(3deg); transition:transform .4s; }
 .project-card-link:hover .production-frame { transform:none; }
-@keyframes panel-in { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+@keyframes panel-in { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
 
 @media(max-width:1150px) {
   .identity-grid { gap:50px; grid-template-columns:1.25fr 1fr; }
