@@ -3,6 +3,7 @@ import type { Locale } from '@/content/site';
 import { profile } from '@/content/site';
 
 const defaultOrigin = 'https://rayanfalcao8.is-a.dev';
+const googleVerification = 'F8zy5NaTt9sD2X0BdTKSp10zAuMb0xizelBon73diMw';
 const origin = (process.env.NEXT_PUBLIC_SITE_URL || defaultOrigin).replace(/\/$/, '');
 if (origin && !/^https?:\/\//.test(origin)) throw new Error('NEXT_PUBLIC_SITE_URL must be an absolute http(s) URL.');
 export const siteUrl = origin;
@@ -14,6 +15,7 @@ export function pageMetadata(locale: Locale, title: string, description: string,
     title: `${title} — ${profile.name}`,
     description,
     applicationName: 'Rayan Tsolefack',
+    verification: { google: googleVerification },
     robots: { index: isIndexable, follow: true },
     icons: { icon: '/favicon.svg' },
     metadataBase: new URL(origin),
